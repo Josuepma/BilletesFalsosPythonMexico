@@ -1,6 +1,6 @@
 # BilletesFalsosPythonMexico
 Programa para identificar billetes falsos mexicanos
-## TODO:
+### TODO:
 IA para detectar billetes falsos
 
 SOLO BILLETES DE MEXICO. Por lo menos unos 100 billetes de cada clase, tomados a contraluz y basado en los elementos de seguridad estandar) (Autenticos principalemente capturados por camara=0. 
