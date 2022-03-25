@@ -11,3 +11,6 @@ Algunos articulos:
 1. https://iopscience.iop.org/article/10.1088/1757-899X/1073/1/012029/pdf
 2. https://pdfs.semanticscholar.org/1642/45ec642c92eac536815cd2057eaedc8243f6.pdf
 3. http://personales.upv.es/thinkmind/dl/conferences/iccgi/iccgi_2018/iccgi_2018_1_30_10036.pdf
+
+Enlace a drive:
+https://drive.google.com/drive/folders/1v4V4WuqLqjzT-V2j6jRMzxD7C8Bu8H2X?usp=sharing
