@@ -88,5 +88,24 @@ display_img(falso,"falso")
 #print(verdadero)
 nverdadero = np.array(verdadero)
 print(nverdadero)
-df = pd.DataFrame(verdadero, columns = ['red','green','blue'],skiprows=1)
+df = pd.DataFrame(nverdadero.reshape(-1, 3), columns = ['red','green','blue'])
 print(df)
+
+"""
+ Utility function to get the report of the accuracy of one model.
+"""
+def get_accuracy(model, X, y):
+  cv = KFold(n_splits=10, random_state=1, shuffle=True)
+  scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=-1)
+  print("Scores", scores)
+  print('Accuracy: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
+
+df['row_num'] = np.zeros(len(df))
+target = df['row_num']
+del df['row_num']
+X_train, X_test, y_train, y_test = train_test_split(df.values, target, test_size=0.3, random_state=1) # 70% training and 30% test
+
+classifier = linear_model.LinearRegression()
+classifier.fit(df.values, target)
+print("Score linear Regression: ", classifier.score(df.values, target))
+get_accuracy(classifier, df.values, target)
