@@ -60,5 +60,26 @@ def display_img(img,name="imagen"):
     cv2.imshow(name,img)
     cv2.waitKey()
 
-img = load_img('billeton.png')
-display_img(img)
+# INTER_NEAREST
+# INTER_LINEAR
+# INTER_AREA
+# INTER_CUBIC
+# INTER_LANCZOS4
+# percent of original size
+def resize_img(img,scale_percent = 200, i = cv2.INTER_AREA):
+    width = int(img.shape[1] * scale_percent / 100)
+    height = int(img.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    # resize image
+    resized = cv2.resize(img, dim, interpolation = i)
+    return resized
+
+#img = load_img('billeton.png')
+#display_img(img)
+
+verdadero = load_img('Billetes_de_20/billete_20.jpg')
+falso = load_img('Billetes_de_20/billete_F_20.png')
+falso = resize_img(falso,400,cv2.INTER_LANCZOS4)
+
+display_img(verdadero,"verdadero")
+display_img(falso,"falso")
