@@ -52,7 +52,7 @@ route_img = str(pathlib.Path(__file__).parent.absolute() / 'images' )
 # billeton.png es el nombre de la imagen por defecto
 # el metodo retorna el objeto cv2 de la imagen especificadoa
 def load_img(name="billeton.png"):
-    return cv2.imread(route_img+'/'+name)
+    return cv2.imread(route_img+'/'+name,1)
 
 # El metodo muestra la imagen especificada
 # recibe un objeto cv2 y el nombre de la ventana, por defecto "imagen"
@@ -83,3 +83,10 @@ falso = resize_img(falso,400,cv2.INTER_LANCZOS4)
 
 display_img(verdadero,"verdadero")
 display_img(falso,"falso")
+
+#print(type(verdadero))
+#print(verdadero)
+nverdadero = np.array(verdadero)
+print(nverdadero)
+df = pd.DataFrame(verdadero, columns = ['red','green','blue'],skiprows=1)
+print(df)
