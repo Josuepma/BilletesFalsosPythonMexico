@@ -28,14 +28,31 @@ cv2.waitKey()
 
 '''
 Usar la función Threshold para crear la imágen binaria, lo único malo es que solo está escrito manualmente xd
+#Threshold
 '''
-# recortereal = img[:,90:95,:]
-# recortefalso = imgf[:,93:98,:]
+recortereal = img[:,440:450,:]
+recortefalso = imgf[:,400:420,:]
+
+recorteT = cv2.threshold(recortereal,128,255,  cv2.THRESH_BINARY_INV)[1]
+recorteF = cv2.threshold(recortefalso,128,255,  cv2.THRESH_BINARY_INV)[1]
+cv2.imshow('a',recorteT)
+cv2.imshow('b',recorteF)
+cv2.waitKey(0)
+
+
 # satThresh = 0.4
 # valThresh = 0.3
 # BWImageReal = ((recortereal[:,:,1] > satThresh).all() and (recortereal[:,:,2] < valThresh).all())
+# # BWImageReal_n = cv2.cvtColor(BWImageReal, cv2.COLOR_BGR2RGB)
+
+# # BWImageReal_n = cv2.cvtColor(cv2.UMat(BWImageReal), cv2.COLOR_RGB2GRAY)
+# # BWImageReal_n = np.copy(BWImageReal)
+# # BWImageReal_n = np.array(BWImageReal.data.tolist())
+# # BWImageReal_n = BWImageReal_n.reshape(BWImageReal.size).transpose()
 # # BWImageReal = plt.subplot(1,2,1) 
-# cv2.imshow("real",BWImageReal) #<- Aquí truena
+
+# plt.imshow(BWImageReal) #<- Aquí truena
+# # plt.show()
 # BWImageFake = ((recortefalso[:,:,1] > satThresh).all() and (recortefalso[:,:,2] < valThresh).all())
 # # BWImageFake = plt.subplot(1,2,2)
 # cv2.imshow("False",BWImageFake)
