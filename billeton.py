@@ -74,12 +74,21 @@ def resize_img(img,scale_percent = 200, i = cv2.INTER_AREA):
     resized = cv2.resize(img, dim, interpolation = i)
     return resized
 
+def resize_img_res(img,width = 800,height = 600, i = cv2.INTER_AREA):
+    dim = (width, height)
+    # resize image
+    resized = cv2.resize(img, dim, interpolation = i)
+    return resized
+
 #img = load_img('billeton.png')
 #display_img(img)
 
 verdadero = load_img('Billetes_de_20/billete_20.jpg')
 falso = load_img('Billetes_de_20/billete_F_20.png')
 falso = resize_img(falso,400,cv2.INTER_LANCZOS4)
+
+verdadero = resize_img_res(verdadero,1000,600,cv2.INTER_LANCZOS4)
+falso = resize_img_res(falso,1000,600,cv2.INTER_LANCZOS4)
 
 display_img(verdadero,"verdadero")
 display_img(falso,"falso")
@@ -88,8 +97,8 @@ display_img(falso,"falso")
 #print(verdadero)
 nverdadero = np.array(verdadero)
 print(nverdadero)
-df = pd.DataFrame(nverdadero.reshape(-1, 3), columns = ['red','green','blue'])
-print(df)
+df_v = pd.DataFrame(nverdadero.reshape(-1, 3), columns = ['red','green','blue'])
+print(df_v)
 
 """
  Utility function to get the report of the accuracy of one model.
@@ -100,12 +109,24 @@ def get_accuracy(model, X, y):
   print("Scores", scores)
   print('Accuracy: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
 
-df['row_num'] = np.zeros(len(df))
-target = df['row_num']
-del df['row_num']
-X_train, X_test, y_train, y_test = train_test_split(df.values, target, test_size=0.3, random_state=1) # 70% training and 30% test
+nfalso = np.array(falso)
+print(nfalso)
+df_f = pd.DataFrame(nfalso.reshape(-1, 3), columns = ['red','green','blue'])
+print(df_f)
+
+exit()
+#X_train, X_test, y_train, y_test = train_test_split(df_v.values, df_f.values, test_size=0.3, random_state=1) # 70% training and 30% test
 
 classifier = linear_model.LinearRegression()
-classifier.fit(df.values, target)
-print("Score linear Regression: ", classifier.score(df.values, target))
-get_accuracy(classifier, df.values, target)
+classifier.fit(df_v.values, df_f.values)
+print("Score linear Regression: ", classifier.score(df_v.values, df_f.values))
+#get_accuracy(classifier, df_v.values, df_f.values)
+
+#classifier = DecisionTreeClassifier()
+#classifier = classifier.fit(df_v.values, df_f.values)
+#print("Decision tree classifier: ", classifier.score(df_v.values, df_f.values))
+
+print("Logistic Regression")
+classifier = linear_model.LogisticRegression(solver='liblinear', C=1)
+classifier.fit(df_v.values, df_f.values)
+print("Score logistic Regression: ", classifier.score(df_v.values, df_f.values))
