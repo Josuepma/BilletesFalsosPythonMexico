@@ -93,13 +93,6 @@ falso = resize_img_res(falso,1000,600,cv2.INTER_LANCZOS4)
 display_img(verdadero,"verdadero")
 display_img(falso,"falso")
 
-#print(type(verdadero))
-#print(verdadero)
-nverdadero = np.array(verdadero)
-print(nverdadero)
-df_v = pd.DataFrame(nverdadero.reshape(-1, 3), columns = ['red','green','blue'])
-print(df_v)
-
 """
  Utility function to get the report of the accuracy of one model.
 """
@@ -109,9 +102,28 @@ def get_accuracy(model, X, y):
   print("Scores", scores)
   print('Accuracy: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
 
+verdadero=cv2.cvtColor(verdadero,cv2.COLOR_RGB2HSV)
+falso=cv2.cvtColor(falso,cv2.COLOR_RGB2HSV)
+
+verdadero = verdadero[:,:,2]
+falso = falso[:,:,2]
+
+display_img(verdadero,"verdadero")
+display_img(falso,"falso")
+
+#print(type(verdadero))
+#print(verdadero)
+nverdadero = np.array(verdadero)
+print(nverdadero)
+df_v = pd.DataFrame(nverdadero)
+print(df_v)
+
+#exit()
+
 nfalso = np.array(falso)
 print(nfalso)
-df_f = pd.DataFrame(nfalso.reshape(-1, 3), columns = ['red','green','blue'])
+#df_f = pd.DataFrame(nfalso.reshape(-1, 3), columns = ['red','green','blue'])
+df_f = pd.DataFrame(nfalso)
 print(df_f)
 
 exit()
