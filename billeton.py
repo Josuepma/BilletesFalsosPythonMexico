@@ -111,11 +111,17 @@ falso = falso[:,:,2]
 display_img(verdadero,"verdadero")
 display_img(falso,"falso")
 
+#kernel = np.array([[0, -1, 0],
+#                   [-1, 5,-1],
+#                   [0, -1, 0]])
+falso = cv2.filter2D(src=falso, ddepth=-1, kernel=kernel)
+display_img(falso,"falso")
+
 #print(type(verdadero))
 #print(verdadero)
 nverdadero = np.array(verdadero)
 print(nverdadero)
-df_v = pd.DataFrame(nverdadero)
+df_v = pd.DataFrame(nverdadero.reshape(-1,1))
 print(df_v)
 
 #exit()
@@ -123,10 +129,10 @@ print(df_v)
 nfalso = np.array(falso)
 print(nfalso)
 #df_f = pd.DataFrame(nfalso.reshape(-1, 3), columns = ['red','green','blue'])
-df_f = pd.DataFrame(nfalso)
+df_f = pd.DataFrame(nfalso.reshape(-1,1))
 print(df_f)
 
-exit()
+#exit()
 #X_train, X_test, y_train, y_test = train_test_split(df_v.values, df_f.values, test_size=0.3, random_state=1) # 70% training and 30% test
 
 classifier = linear_model.LinearRegression()
@@ -134,9 +140,12 @@ classifier.fit(df_v.values, df_f.values)
 print("Score linear Regression: ", classifier.score(df_v.values, df_f.values))
 #get_accuracy(classifier, df_v.values, df_f.values)
 
+exit()
+
 #classifier = DecisionTreeClassifier()
 #classifier = classifier.fit(df_v.values, df_f.values)
 #print("Decision tree classifier: ", classifier.score(df_v.values, df_f.values))
+
 
 print("Logistic Regression")
 classifier = linear_model.LogisticRegression(solver='liblinear', C=1)
