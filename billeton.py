@@ -74,6 +74,12 @@ def resize_img(img,scale_percent = 200, i = cv2.INTER_AREA):
     resized = cv2.resize(img, dim, interpolation = i)
     return resized
 
+def resize_img_res(img,width = 800,height = 600, i = cv2.INTER_AREA):
+    dim = (width, height)
+    # resize image
+    resized = cv2.resize(img, dim, interpolation = i)
+    return resized
+
 #img = load_img('billeton.png')
 #display_img(img)
 
@@ -81,12 +87,67 @@ verdadero = load_img('Billetes_de_20/billete_20.jpg')
 falso = load_img('Billetes_de_20/billete_F_20.png')
 falso = resize_img(falso,400,cv2.INTER_LANCZOS4)
 
+verdadero = resize_img_res(verdadero,1000,600,cv2.INTER_LANCZOS4)
+falso = resize_img_res(falso,1000,600,cv2.INTER_LANCZOS4)
+
 display_img(verdadero,"verdadero")
+display_img(falso,"falso")
+
+"""
+ Utility function to get the report of the accuracy of one model.
+"""
+def get_accuracy(model, X, y):
+  cv = KFold(n_splits=10, random_state=1, shuffle=True)
+  scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=-1)
+  print("Scores", scores)
+  print('Accuracy: %.3f (%.3f)' % (np.mean(scores), np.std(scores)))
+
+verdadero=cv2.cvtColor(verdadero,cv2.COLOR_RGB2HSV)
+falso=cv2.cvtColor(falso,cv2.COLOR_RGB2HSV)
+
+verdadero = verdadero[:,:,2]
+falso = falso[:,:,2]
+
+display_img(verdadero,"verdadero")
+display_img(falso,"falso")
+
+#kernel = np.array([[0, -1, 0],
+#                   [-1, 5,-1],
+#                   [0, -1, 0]])
+falso = cv2.filter2D(src=falso, ddepth=-1, kernel=kernel)
 display_img(falso,"falso")
 
 #print(type(verdadero))
 #print(verdadero)
 nverdadero = np.array(verdadero)
 print(nverdadero)
-df = pd.DataFrame(verdadero, columns = ['red','green','blue'],skiprows=1)
-print(df)
+df_v = pd.DataFrame(nverdadero.reshape(-1,1))
+print(df_v)
+
+#exit()
+
+nfalso = np.array(falso)
+print(nfalso)
+#df_f = pd.DataFrame(nfalso.reshape(-1, 3), columns = ['red','green','blue'])
+df_f = pd.DataFrame(nfalso.reshape(-1,1))
+print(df_f)
+
+#exit()
+#X_train, X_test, y_train, y_test = train_test_split(df_v.values, df_f.values, test_size=0.3, random_state=1) # 70% training and 30% test
+
+classifier = linear_model.LinearRegression()
+classifier.fit(df_v.values, df_f.values)
+print("Score linear Regression: ", classifier.score(df_v.values, df_f.values))
+#get_accuracy(classifier, df_v.values, df_f.values)
+
+exit()
+
+#classifier = DecisionTreeClassifier()
+#classifier = classifier.fit(df_v.values, df_f.values)
+#print("Decision tree classifier: ", classifier.score(df_v.values, df_f.values))
+
+
+print("Logistic Regression")
+classifier = linear_model.LogisticRegression(solver='liblinear', C=1)
+classifier.fit(df_v.values, df_f.values)
+print("Score logistic Regression: ", classifier.score(df_v.values, df_f.values))
