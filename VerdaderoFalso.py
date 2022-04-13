@@ -47,7 +47,7 @@ def validacion(edge,edgec2):
       
     print(draw_params)
     edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
-    plt.imshow(edgec2, 'gray'),plt.show()
+    #plt.imshow(edgec2, 'gray'),plt.show()
     return resultados
 
 MIN_MATCH_COUNT = 8
@@ -78,9 +78,11 @@ columnas = ['BILLETE', 'TIPO']
 with open("Billetes50C1.csv", 'w', newline="") as file:
     writer = csv.DictWriter(file, fieldnames=columnas)
     writer.writeheader()
-    for i in resultados:
-        file.write(i)
+    for i in range(len(resultados)):
+        file.write(resultados[i] + ',' + resultadosc2[i] + ',' + resultadosc3[i])
         file.write("\n")
+
+exit()
 
 with open("Billetes50C2.csv", 'w', newline="") as file:
     writer = csv.DictWriter(file, fieldnames=columnas)
