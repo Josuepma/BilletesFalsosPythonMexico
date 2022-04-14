@@ -41,9 +41,9 @@ def validacion(edge,edgec2):
     else:
         matchesMask=[0,0]
     if(len(matchesMask)>5):
-        resultados+=["VERDADERO"]  
+        resultados+=["1"]  
     else:
-        resultados+=["FALSO"]
+        resultados+=["0"]
       
     print(draw_params)
     edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
