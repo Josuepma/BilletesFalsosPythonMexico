@@ -41,9 +41,9 @@ def validacion(edge,edgec2):
     else:
         matchesMask=[0,0]
     if(len(matchesMask)>5):
-        resultados+=[i+",VERDADERO"]  
+        resultados+=["VERDADERO"]  
     else:
-        resultados+=[i+",FALSO"]
+        resultados+=["FALSO"]
       
     print(draw_params)
     edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
@@ -73,7 +73,7 @@ for i in billetes:
 
 print(resultados)
 print(resultadosc2)
-columnas = ['BILLETE', 'TIPO']
+columnas = ['c1', 'c2','c3']
 
 with open("Billetes50C1.csv", 'w', newline="") as file:
     writer = csv.DictWriter(file, fieldnames=columnas)
