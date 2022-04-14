@@ -4,7 +4,6 @@ import numpy as np
 import cv2 as cv
 from matplotlib import pyplot as plt
 
-
 def validacion(edge,edgec2):
     MIN_MATCH_COUNT = 8
     resultados=[]
@@ -30,14 +29,15 @@ def validacion(edge,edgec2):
         dst = cv.perspectiveTransform(pts,M)
         img2 = cv.polylines(edgec2,[np.int32(dst)],True,255,3, cv.LINE_AA)
     else:
-        print( "Not enough matches are found - {}/{}".format(len(good), MIN_MATCH_COUNT) )
+        #print( "Not enough matches are found - {}/{}".format(len(good), MIN_MATCH_COUNT) )
         matchesMask = None
     draw_params = dict(matchColor = (0,255,0), # draw matches in green color
                    singlePointColor = None,
                    matchesMask = matchesMask, # draw only inliers
                    flags = 2)
     if(matchesMask!=None):
-        print(len(matchesMask))
+        #print(len(matchesMask))
+        None
     else:
         matchesMask=[0,0]
     if(len(matchesMask)>5):
@@ -45,21 +45,37 @@ def validacion(edge,edgec2):
     else:
         resultados+=["0"]
       
-    print(draw_params)
+    #print(draw_params)
     edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
     #plt.imshow(edgec2, 'gray'),plt.show()
     return resultados
 
 MIN_MATCH_COUNT = 8
-resultados=[]
-resultadosc2=[]
-resultadosc3=[]
-billetes=['Billetes de 50/b51_1.jpg','Billetes de 50/b50.jpg','Billetes de 50/billete de 50.jpg','Billetes de 50/billete de 50_2.jpg','Billetes de 50/billete de 50_3.jpg','Billetes de 50/billete de 50_4.jpg','billeteF_50/billeteF_50_6.jpg','billeteF_50/billeteF_50_5.jpg','billeteF_50/billeteF_50_4.jpg','billeteF_50/billeteF_50_3.jpg','billeteF_50/billeteF_50_2.jpg','billeteF_50/billeteF_50.jpg']
+resultados = []
+resultadosc2 = []
+resultadosc3 = []
+resultadoFinal = []
+billetes=[]
+
+from pathlib import Path
+p = Path('images/billetes_de_50')
+for child in p.iterdir(): 
+    #print(child)
+    billetes.append(child.__str__())
+
+p = Path('images/billeteF_50')
+for child in p.iterdir():
+    #print(child) 
+    billetes.append(child.__str__())
+
+#print(billetes)
+
 for i in billetes:
+    print(i)
     img1 = cv.imread(i,0)          # queryImage
-    img4 = cv.imread('C1.jpg',0) # trainImage
-    img3 = cv.imread('C2.jpg',0) # trainImage
-    img5 = cv.imread('CAR3.jpg',0) # trainImage
+    img4 = cv.imread('images/Caracteristica_50/C1.jpg',0) # trainImage
+    img3 = cv.imread('images/Caracteristica_50/C2.jpg',0) # trainImage
+    img5 = cv.imread('images/Caracteristica_50/CAR3.jpg',0) # trainImage
     edge=cv.Canny(img1,100,200)
     edgec2=cv.Canny(img3,100,200)
     edgec4=cv.Canny(img4,100,200)
@@ -68,33 +84,23 @@ for i in billetes:
     resultados+=validacion(edge,edgec2)
     resultadosc2+=validacion(edge,edgec4)
     resultadosc3+=validacion(edge,edgec5)
+    if(int(resultados[-1]) == 1 and int(resultadosc2[-1]) == 1):
+        resultadoFinal+=["1"]
+    else:
+        resultadoFinal+=["0"]
+
     # find the keypoints and descriptors with SIFT
     
 
 print(resultados)
 print(resultadosc2)
-columnas = ['c1', 'c2','c3']
+columnas = ['c1', 'c2', 'c3', 'b']
 
 with open("Billetes50C1.csv", 'w', newline="") as file:
     writer = csv.DictWriter(file, fieldnames=columnas)
     writer.writeheader()
     for i in range(len(resultados)):
-        file.write(resultados[i] + ',' + resultadosc2[i] + ',' + resultadosc3[i])
+        file.write(resultados[i] + ',' + resultadosc2[i] +
+         ',' + resultadosc3[i] + ',' + resultadoFinal[i])
         file.write("\n")
 
-exit()
-
-with open("Billetes50C2.csv", 'w', newline="") as file:
-    writer = csv.DictWriter(file, fieldnames=columnas)
-    writer.writeheader()
-    for i in resultadosc2:
-        file.write(i)
-        file.write("\n")
-
-
-with open("Billetes50C3.csv", 'w', newline="") as file:
-    writer = csv.DictWriter(file, fieldnames=columnas)
-    writer.writeheader()
-    for i in resultadosc3:
-        file.write(i)
-        file.write("\n")
