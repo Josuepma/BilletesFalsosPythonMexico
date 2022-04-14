@@ -114,7 +114,7 @@ display_img(falso,"falso")
 #kernel = np.array([[0, -1, 0],
 #                   [-1, 5,-1],
 #                   [0, -1, 0]])
-falso = cv2.filter2D(src=falso, ddepth=-1, kernel=kernel)
+#falso = cv2.filter2D(src=falso, ddepth=-1, kernel=kernel)
 display_img(falso,"falso")
 
 #print(type(verdadero))
