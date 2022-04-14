@@ -51,9 +51,10 @@ def validacion(edge,edgec2):
     return resultados
 
 MIN_MATCH_COUNT = 8
-resultados=[]
-resultadosc2=[]
-resultadosc3=[]
+resultados = []
+resultadosc2 = []
+resultadosc3 = []
+resultadoFinal = []
 billetes=['Billetes de 50/b51_1.jpg','Billetes de 50/b50.jpg','Billetes de 50/billete de 50.jpg','Billetes de 50/billete de 50_2.jpg','Billetes de 50/billete de 50_3.jpg','Billetes de 50/billete de 50_4.jpg','billeteF_50/billeteF_50_6.jpg','billeteF_50/billeteF_50_5.jpg','billeteF_50/billeteF_50_4.jpg','billeteF_50/billeteF_50_3.jpg','billeteF_50/billeteF_50_2.jpg','billeteF_50/billeteF_50.jpg']
 for i in billetes:
     img1 = cv.imread(i,0)          # queryImage
@@ -68,33 +69,23 @@ for i in billetes:
     resultados+=validacion(edge,edgec2)
     resultadosc2+=validacion(edge,edgec4)
     resultadosc3+=validacion(edge,edgec5)
+    if(int(resultados[-1]) == 1 and int(resultadosc2[-1]) == 1):
+        resultadoFinal+=["1"]
+    else:
+        resultadoFinal+=["0"]
+
     # find the keypoints and descriptors with SIFT
     
 
 print(resultados)
 print(resultadosc2)
-columnas = ['c1', 'c2','c3']
+columnas = ['c1', 'c2', 'c3', 'b']
 
 with open("Billetes50C1.csv", 'w', newline="") as file:
     writer = csv.DictWriter(file, fieldnames=columnas)
     writer.writeheader()
     for i in range(len(resultados)):
-        file.write(resultados[i] + ',' + resultadosc2[i] + ',' + resultadosc3[i])
+        file.write(resultados[i] + ',' + resultadosc2[i] +
+         ',' + resultadosc3[i] + ',' + resultadoFinal[i])
         file.write("\n")
 
-exit()
-
-with open("Billetes50C2.csv", 'w', newline="") as file:
-    writer = csv.DictWriter(file, fieldnames=columnas)
-    writer.writeheader()
-    for i in resultadosc2:
-        file.write(i)
-        file.write("\n")
-
-
-with open("Billetes50C3.csv", 'w', newline="") as file:
-    writer = csv.DictWriter(file, fieldnames=columnas)
-    writer.writeheader()
-    for i in resultadosc3:
-        file.write(i)
-        file.write("\n")
