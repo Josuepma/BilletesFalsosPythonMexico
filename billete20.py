@@ -89,7 +89,6 @@ with open("Billetes20C.csv", 'w', newline="") as file:
     writer = csv.DictWriter(file, fieldnames=columnas)
     writer.writeheader()
     for i in range(len(resultados)):
-        file.write(resultados[i] + ',' + resultadosc2[i] +
-         ',' + resultadosc3[i] + ',' + resultadoFinal[i])
+        file.write(resultados[i] + ',' + resultadosc2[i] +',' + resultadosc3[i] + ',' + resultadoFinal[i])
         file.write("\n")
 exit()

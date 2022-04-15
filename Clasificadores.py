@@ -30,6 +30,7 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler 
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
 
 # biblioteca matplotlib para graficas y otras utilidades matemáticas
 
@@ -56,34 +57,48 @@ target = df['b']
 del df['b']
 print("|| Billetes de 50||")
 X_train, X_test, y_train, y_test = train_test_split(df.values, target, test_size=0.3, random_state=27)
+
 classifier = DecisionTreeClassifier()
 classifier = classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
 print("\nDecision tree classifier: ", classifier.score(X_train, y_train))
 get_accuracy(classifier, df.values, target)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
+
 
 print("\nRandomForest classifier")
 classifier = RandomForestClassifier()
 classifier.fit(X_train,y_train)
+y_pred = classifier.predict(X_test)
 classifier.score(X_train,y_train)
 get_accuracy(classifier, df.values, target)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
 
 print("\nmlp classifier")
 classifier = MLPClassifier(max_iter=400)
 classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
 classifier.score(X_train, y_train)
 get_accuracy(classifier, X_train, y_train)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
+
 
 print("KNeighborsClassifier")
 model = KNeighborsClassifier(3)
 model = model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
+y_pred = classifier.predict(X_test)
 print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
+
 
 print("\nAda")
 classifier = AdaBoostClassifier()
 classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
 classifier.score(X_train, y_train)
 get_accuracy(classifier, X_train, y_train)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
 
 # Initialize classifier:
 gnb = GaussianNB()
@@ -93,15 +108,10 @@ model = gnb.fit(X_train, y_train)
 # Make predictions with the classifier:
 predictive_labels = gnb.predict(X_test)
 print(predictive_labels)
-
+y_pred = model.predict(X_test)
 # Evaluate label (subsets) accuracy:
 print(accuracy_score(y_test, predictive_labels))
-
-
-
-
-
-
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
 
 
 df = pd.read_csv('Billetes20C.csv')
@@ -109,34 +119,48 @@ target = df['b']
 del df['b']
 print("|| Billetes de 20||")
 X_train, X_test, y_train, y_test = train_test_split(df.values, target, test_size=0.3, random_state=27)
+
 classifier = DecisionTreeClassifier()
 classifier = classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
 print("\nDecision tree classifier: ", classifier.score(X_train, y_train))
 get_accuracy(classifier, df.values, target)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
+
 
 print("\nRandomForest classifier")
 classifier = RandomForestClassifier()
 classifier.fit(X_train,y_train)
+y_pred = classifier.predict(X_test)
 classifier.score(X_train,y_train)
 get_accuracy(classifier, df.values, target)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
 
 print("\nmlp classifier")
 classifier = MLPClassifier(max_iter=400)
 classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
 classifier.score(X_train, y_train)
 get_accuracy(classifier, X_train, y_train)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
 
-print("\nKNeighborsClassifier")
+
+print("KNeighborsClassifier")
 model = KNeighborsClassifier(3)
 model = model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
+y_pred = classifier.predict(X_test)
 print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
+
 
 print("\nAda")
 classifier = AdaBoostClassifier()
 classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
 classifier.score(X_train, y_train)
 get_accuracy(classifier, X_train, y_train)
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
 
 # Initialize classifier:
 gnb = GaussianNB()
@@ -146,6 +170,7 @@ model = gnb.fit(X_train, y_train)
 # Make predictions with the classifier:
 predictive_labels = gnb.predict(X_test)
 print(predictive_labels)
-
+y_pred = model.predict(X_test)
 # Evaluate label (subsets) accuracy:
 print(accuracy_score(y_test, predictive_labels))
+print("Confusion matrix: \n",confusion_matrix(y_test, y_pred))
