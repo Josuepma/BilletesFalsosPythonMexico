@@ -58,7 +58,7 @@ resultadoFinal = []
 billetes=[]
 
 from pathlib import Path
-p = Path('images/billetes_de_50')
+p = Path('images/Billetes_de_50')
 for child in p.iterdir(): 
     #print(child)
     billetes.append(child.__str__())
