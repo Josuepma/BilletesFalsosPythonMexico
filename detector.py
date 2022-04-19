@@ -52,39 +52,40 @@ def validacion(edge,edgec2):
     edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
     plt.imshow(edgec2, 'gray'),plt.show()
     return resultados
-# cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(0)
 
-# cv2.namedWindow("test")
+cv2.namedWindow("test")
 
-# img_counter = 0
-# var = True
-# while  var == True:
-#     ret, frame = cam.read()
-#     if not ret:
-#         print("failed to grab frame")
-#         break
-#     cv2.imshow("test", frame)
+img_counter = 0
+var = True
+while  var == True:
+    ret, frame = cam.read()
+    if not ret:
+        print("failed to grab frame")
+        break
+    cv2.imshow("test", frame)
 
-#     k = cv2.waitKey(1)
-#     if k%256 == 27:
-#         # ESC pressed
-#         print("Escape hit, closing...")
-#         break
-#     elif k%256 == 32:
-#         # SPACE pressed
-#         img_name = "opencv_frame_{}.png".format(img_counter)
-#         cv2.imwrite(img_name, frame)
-#         print("{} written!".format(img_name))
-#         # img_counter += 1
-#         var = None
+    k = cv2.waitKey(1)
+    if k%256 == 27:
+        # ESC pressed
+        print("Escape hit, closing...")
+        break
+    elif k%256 == 32:
+        # SPACE pressed
+        img_name = "images/camera/opencv_frame_{}.png".format(img_counter)
+        cv2.imwrite(Path(img_name).resolve().__str__(), frame)
+        print("{} written!".format(img_name))
+        # img_counter += 1
+        var = None
 
-# cam.release()
-# cv2.destroyAllWindows()
+
+cam.release()
+cv2.destroyAllWindows()
 resultados = []
 resultadosc2 = []
 resultadosc3 = []
 resultadoFinal = []
-img1 = cv.imread("opencv_frame_0.png",0)          # queryImage
+img1 = cv.imread(img_name,0)          # queryImage
 # cv2.imshow("a ver", img1)
 # cv2.waitKey()
 img4 = cv.imread('images/Caracteristica_50/C1.jpg',0) # trainImage
