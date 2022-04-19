@@ -53,7 +53,11 @@ if billete_opcion == '50':
 
         edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
         plt.imshow(edgec2, 'gray'),plt.show()
+        
         return resultados
+    img4 = cv.imread('images/Caracteristica_50/C1.jpg',0) # trainImage
+    img3 = cv.imread('images/Caracteristica_50/C2.jpg',0) # trainImage
+    img5 = cv.imread('images/Caracteristica_50/CAR3.jpg',0) # trainImage
 elif billete_opcion == '20':
     def validacion(edge,edgec2):
         MIN_MATCH_COUNT = 8
@@ -101,10 +105,12 @@ elif billete_opcion == '20':
         # edgec2 = cv.drawMatches(edge,kp1,edgec2,kp2,good,None,**draw_params)
         #plt.imshow(edgec2, 'gray'),plt.show()
         return resultados
+    imgc1 = cv.imread('images/Caracteristica_20/caracteristica_1.jpg',0) # trainImage
+    imgc2 = cv.imread('images/Caracteristica_20/caracteristica_2.jpg',0) # trainImage
+    imgc3 = cv.imread('images/Caracteristica_20/caracteristica_3.jpg',0) # trainImage
 else:
     print("ingrese una opción valida")
     exit()
-
 
 cam = cv2.VideoCapture(0)
 
@@ -142,9 +148,6 @@ resultadoFinal = []
 img1 = cv.imread(img_name,0)          # queryImage
 # cv2.imshow("a ver", img1)
 # cv2.waitKey()
-img4 = cv.imread('images/Caracteristica_50/C1.jpg',0) # trainImage
-img3 = cv.imread('images/Caracteristica_50/C2.jpg',0) # trainImage
-img5 = cv.imread('images/Caracteristica_50/CAR3.jpg',0) # trainImage
 edge=cv.Canny(img1,100,200)
 edgec2=cv.Canny(img3,100,200)
 edgec4=cv.Canny(img4,100,200)
